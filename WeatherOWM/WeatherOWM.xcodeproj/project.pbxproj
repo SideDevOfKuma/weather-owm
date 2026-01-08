@@ -29,9 +29,22 @@
 		B6231BFB2F0EB415006FD9CF /* WeatherOWMUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherOWMUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		B6AF47D52F0F4DEF00309C7E /* Exceptions for "WeatherOWM" folder in "WeatherOWM" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = B6231BE32F0EB412006FD9CF /* WeatherOWM */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		B6231BE62F0EB412006FD9CF /* WeatherOWM */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				B6AF47D52F0F4DEF00309C7E /* Exceptions for "WeatherOWM" folder in "WeatherOWM" target */,
+			);
 			path = WeatherOWM;
 			sourceTree = "<group>";
 		};
@@ -400,6 +413,8 @@
 				DEVELOPMENT_TEAM = 8QCWFE852T;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WeatherOWM/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need access to your location to display the weather near you";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -433,6 +448,8 @@
 				DEVELOPMENT_TEAM = 8QCWFE852T;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WeatherOWM/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need access to your location to display the weather near you";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

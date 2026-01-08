@@ -12,7 +12,7 @@ struct CurrentWeatherResponse: Codable {
     let main: MainWeather
     let visibility: Int
     let wind: Wind
-    let rain: Rain
+    let rain: Rain?
     let clouds: Clouds
     let dt: Int
     let sys: Sys

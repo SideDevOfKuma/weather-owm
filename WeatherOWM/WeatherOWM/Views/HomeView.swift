@@ -6,16 +6,24 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 struct HomeView: View {
+    @ObservedObject var locationManager = GeoLocationManager.shared
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        Group {
+            if locationManager.userLocation == nil
+                && locationManager.authorizarionStatus == .notDetermined {
+                LocationRequestView()
+            } else if locationManager.userLocation != nil {
+                VStack {
+                    CurrentLocationWeatherView(userLocation: $locationManager.userLocation)
+                    Text("User Location: \(String(describing: locationManager.userLocation))")
+                }
+                .padding()
+            }
         }
-        .padding()
     }
 }
 
