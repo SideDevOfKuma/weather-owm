@@ -19,7 +19,7 @@ struct HomeView: View {
             } else if locationManager.userLocation != nil {
                 VStack {
                     CurrentLocationWeatherView(userLocation: $locationManager.userLocation)
-                    Text("User Location: \(String(describing: locationManager.userLocation))")
+                    PredefinedCitiesWeather()
                 }
                 .padding()
             }

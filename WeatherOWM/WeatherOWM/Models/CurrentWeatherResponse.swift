@@ -5,7 +5,7 @@
 //  Created by Lucas Paintner on 07/01/2026.
 //
 
-struct CurrentWeatherResponse: Codable {
+struct CurrentWeatherResponse: Codable, Identifiable {
     let coord: Coordinates
     let weather: [Weather]
     let base: String // API internal parameter
