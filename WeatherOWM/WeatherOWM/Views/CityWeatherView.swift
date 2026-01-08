@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CityWeatherView: View {
     @State var weather: CurrentWeatherResponse
+    @State var imageURL: URL?
     
     var body: some View {
         GroupBox {
@@ -17,20 +18,33 @@ struct CityWeatherView: View {
                     .font(Font.largeTitle.bold())
                 
                 HStack() {
-                    
-                    Image(systemName: "sun.max")
-                        .font(.system(size: 40, weight: .bold, design: .default))
-                        .foregroundColor(.yellow)
+                    AsyncImage(url: imageURL) { image in
+                        image
+                            .resizable()
+                            .scaledToFit()
+                        
+                    } placeholder: {
+                        Image(systemName: "sun.max")
+                            .font(.system(size: 40, weight: .bold, design: .default))
+                            .foregroundColor(.gray)
+                    }
+                    .frame(width:70, height: 70)
                     Text(weather.weather.first?.description.capitalized ?? "")
                     Spacer()
-                    VStack {
-                        Text(weather.main.temp.toString())
+                    VStack (alignment: .trailing){
+                        Text(weather.main.temp.toString() + " ºC")
                             .font(.system(size: 40, weight: .bold, design: .default))
+                        HStack {
+                            Text(String(format:"H: %.2f ºC",  weather.main.tempMax))
+                                .font(.caption.italic())
+                            Text(String(format:"L: %.2f ºC", weather.main.tempMin))
+                                .font(.caption.italic())
+                        }
                     }
                 }
             }
         }
-        .padding()
+        .groupBoxStyle(.weather)
     }
 }
 

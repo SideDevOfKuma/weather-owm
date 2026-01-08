@@ -13,9 +13,19 @@ struct PredefinedCitiesWeather: View {
     var body: some View {
         Group {
             if viewModel.weatherFetchingStatus == .success {
-                List(viewModel.currentWeatherResponses) { response in
-                    CityWeatherView(weather: response)
+                Text("Defined Locations: ")
+                    .font(Font.title.bold())
+                    .foregroundStyle(Color(.white))
+                    .padding(.top, 8)
+                ScrollView {
+                    VStack(spacing: 20) {
+                        ForEach(viewModel.currentWeatherResponses) { response in
+                            CityWeatherView(weather: response, imageURL: viewModel.getWeatherIconURL(iconId: response.weather.first?.icon))
+                        }
+                    }
                 }
+                .padding(.top, 8)
+                
             } else {
                 Text("No Data Found")
             }

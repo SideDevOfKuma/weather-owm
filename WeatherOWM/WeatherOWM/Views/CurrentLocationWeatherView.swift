@@ -35,7 +35,7 @@ struct CurrentLocationWeatherView: View {
                                     .font(.system(size: 40, weight: .bold, design: .default))
                                     .foregroundColor(.gray)
                             }
-                            .frame(width:80, height: 80)
+                            .frame(width:70, height: 70)
                             
                             Text(weather.weather.first?.description.capitalized ?? "")
                             Spacer()
@@ -43,9 +43,9 @@ struct CurrentLocationWeatherView: View {
                                 Text(weather.main.temp.toString() + " ºC")
                                     .font(.system(size: 40, weight: .bold, design: .default))
                                 HStack {
-                                    Text(String(format:"Max: %.2f ºC",  weather.main.tempMax))
+                                    Text(String(format:"H: %.2f ºC",  weather.main.tempMax))
                                         .font(.caption.italic())
-                                    Text(String(format:"Min: %.2f ºC", weather.main.tempMin))
+                                    Text(String(format:"L: %.2f ºC", weather.main.tempMin))
                                         .font(.caption.italic())
                                 }
                             }

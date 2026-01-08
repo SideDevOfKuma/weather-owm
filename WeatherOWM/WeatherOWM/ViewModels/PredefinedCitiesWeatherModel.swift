@@ -9,6 +9,7 @@ import Foundation
 import CoreLocation
 import Combine
 
+// TODO: Duplicated code, refactor.
 final class PredefinedCitiesWeatherModel: ObservableObject {
     
     private var networkManager: NetworkManager
@@ -62,6 +63,15 @@ final class PredefinedCitiesWeatherModel: ObservableObject {
             
         } catch {
             throw NetworkError.invalidResponse
+        }
+    }
+    
+    func getWeatherIconURL(iconId: String?) -> URL? {
+        if  let iconIdString = iconId,
+            let iconURL = URL(string: APIConstants.openWeatherIconBaseURL + "\(iconIdString)@2x.png") {
+            return iconURL
+        } else {
+            return nil
         }
     }
 }
