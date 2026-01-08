@@ -36,4 +36,13 @@ final class CurrentLocationWeatherViewModel: ObservableObject {
             weatherFetchingStatus = WeatherFetchingStatus.failed
         }
     }
+    
+    func getWeatherIconURL(iconId: String?) -> URL? {
+        if  let iconIdString = iconId,
+            let iconURL = URL(string: APIConstants.openWeatherIconBaseURL + "\(iconIdString)@2x.png") {
+            return iconURL
+        } else {
+            return nil
+        }
+    }
 }

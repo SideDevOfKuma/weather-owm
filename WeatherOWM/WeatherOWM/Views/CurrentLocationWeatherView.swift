@@ -25,19 +25,35 @@ struct CurrentLocationWeatherView: View {
                                 .font(Font.subheadline.italic())
                         HStack() {
                             
-                            Image(systemName: "sun.max")
-                                .font(.system(size: 40, weight: .bold, design: .default))
-                                .foregroundColor(.yellow)
+                            AsyncImage(url: viewModel.getWeatherIconURL(iconId: viewModel.weather?.weather.first?.icon)) { image in
+                                image
+                                    .resizable()
+                                    .scaledToFit()
+                                
+                            } placeholder: {
+                                Image(systemName: "sun.max")
+                                    .font(.system(size: 40, weight: .bold, design: .default))
+                                    .foregroundColor(.gray)
+                            }
+                            .frame(width:80, height: 80)
+                            
                             Text(weather.weather.first?.description.capitalized ?? "")
                             Spacer()
-                            VStack {
-                                Text(weather.main.temp.toString())
+                            VStack (alignment: .trailing){
+                                Text(weather.main.temp.toString() + " ºC")
                                     .font(.system(size: 40, weight: .bold, design: .default))
+                                HStack {
+                                    Text(String(format:"Max: %.2f ºC",  weather.main.tempMax))
+                                        .font(.caption.italic())
+                                    Text(String(format:"Min: %.2f ºC", weather.main.tempMin))
+                                        .font(.caption.italic())
+                                }
                             }
                         }
                     }
                 }
-                .padding()
+                .groupBoxStyle(.weather)
+                
             } else {
                 Text("No weather available")
             }

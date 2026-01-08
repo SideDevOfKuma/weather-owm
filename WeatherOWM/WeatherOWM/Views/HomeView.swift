@@ -17,6 +17,10 @@ struct HomeView: View {
                 && locationManager.authorizarionStatus == .notDetermined {
                 LocationRequestView()
             } else if locationManager.userLocation != nil {
+                Text("Today")
+                    .font(.system(size: 45, weight: .heavy, design: .default))
+                    .foregroundStyle(Color(.white))
+                    .padding(.top, 28)
                 VStack {
                     CurrentLocationWeatherView(userLocation: $locationManager.userLocation)
                     PredefinedCitiesWeather()
@@ -24,6 +28,9 @@ struct HomeView: View {
                 .padding()
             }
         }
+        .background(
+            LinearGradient(gradient: Gradient(colors: [Color("GradientColor1"), Color("GradientColor2")]), startPoint: .topLeading, endPoint: .bottomTrailing)
+        )
     }
 }
 

@@ -18,6 +18,9 @@ struct APIConfig: Codable {
         }
     }()
     
+    /**
+        NOTE:  This is not a good practice, the key needs to be retieved securely from the backend but it exceed the scope of this excersice.`
+     */
     private static func loadAPIConfig() throws -> APIConfig {
         guard let url = Bundle.main.url(forResource: "APIConfig", withExtension: "json") else {
             throw APIConfigError.fileNotFound
