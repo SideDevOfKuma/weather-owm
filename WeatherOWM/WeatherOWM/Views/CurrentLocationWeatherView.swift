@@ -25,7 +25,13 @@ struct CurrentLocationWeatherView: View {
                                 .font(Font.subheadline.italic())
                         HStack() {
                             
-                            AsyncImage(url: viewModel.getWeatherIconURL(iconId: viewModel.weather?.weather.first?.icon)) { image in
+                            AsyncImage(url: {
+                                if let icon = viewModel.weather?.weather.first?.icon {
+                                    return viewModel.getWeatherIconURL(iconId: icon)
+                                } else {
+                                    return nil
+                                }
+                            }()) { image in
                                 image
                                     .resizable()
                                     .scaledToFit()
@@ -41,12 +47,19 @@ struct CurrentLocationWeatherView: View {
                                 .font(Font.subheadline)
                             Spacer()
                             VStack (alignment: .trailing){
-                                Text(weather.main.temp.toString() + " ºC")
+                                Text({
+                                    let temp = weather.main.temp
+                                    if temp.isFinite {
+                                        return String(format: "%.2f ºC", temp)
+                                    } else {
+                                        return "-- ºC"
+                                    }
+                                }())
                                     .font(.system(size: 32, weight: .bold, design: .default))
                                 HStack {
-                                    Text(String(format:"H: %.2f ºC",  weather.main.tempMax))
+                                    Text(weather.main.tempMax.isFinite ? String(format: "H: %.2f ºC", weather.main.tempMax) : "H: -- ºC")
                                         .font(.caption.italic())
-                                    Text(String(format:"L: %.2f ºC", weather.main.tempMin))
+                                    Text(weather.main.tempMin.isFinite ? String(format: "L: %.2f ºC", weather.main.tempMin) : "L: -- ºC")
                                         .font(.caption.italic())
                                 }
                             }
@@ -54,15 +67,15 @@ struct CurrentLocationWeatherView: View {
                     }
                 }
                 .groupBoxStyle(.weather)
-                
             } else {
-                Text("No weather available")
+                LoadingView()
             }
         }
         .onAppear {
+            guard let location = userLocation else { return }
             Task { @MainActor in
-                await viewModel.getLocalWeather(lat: userLocation!.coordinate.latitude,
-                                                lon: userLocation!.coordinate.longitude)
+                await viewModel.getLocalWeather(lat: location.coordinate.latitude,
+                                                lon: location.coordinate.longitude)
             }
         }
     }

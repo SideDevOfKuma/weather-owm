@@ -12,11 +12,13 @@ struct PredefinedCitiesWeather: View {
     
     var body: some View {
         Group {
+            Text("Defined Locations: ")
+                .font(Font.title.bold())
+                .foregroundStyle(Color(.white))
+                .padding(.top, 8)
+            
             if viewModel.weatherFetchingStatus == .success {
-                Text("Defined Locations: ")
-                    .font(Font.title.bold())
-                    .foregroundStyle(Color(.white))
-                    .padding(.top, 8)
+                
                 ScrollView {
                     VStack(spacing: 20) {
                         ForEach(viewModel.currentWeatherResponses) { response in
@@ -27,7 +29,8 @@ struct PredefinedCitiesWeather: View {
                 .padding(.top, 8)
                 
             } else {
-                Text("No Data Found")
+                LoadingView()
+                Spacer()
             }
         }
         .onAppear() {
