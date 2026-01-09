@@ -11,12 +11,12 @@ import Combine
 
 final class CurrentLocationWeatherViewModel: ObservableObject {
     
-    private let networkManager: NetworkManager
+    private let networkManager: NetworkManagerProtocol
     
     @Published var weather: CurrentWeatherResponse? = nil
     @Published var weatherFetchingStatus: WeatherFetchingStatus
     
-    init(networkManager:NetworkManager) {
+    init(networkManager:NetworkManagerProtocol) {
         self.networkManager = networkManager
         weatherFetchingStatus =  WeatherFetchingStatus.notStarted
     }

@@ -14,7 +14,7 @@ class GeoLocationManager: NSObject, ObservableObject {
     private let locationManager = CLLocationManager()
     @Published var userLocation: CLLocation?
     
-    var authorizarionStatus: CLAuthorizationStatus {
+    var authorizationStatus: CLAuthorizationStatus {
         return locationManager.authorizationStatus
     }
     

@@ -12,21 +12,24 @@ import Combine
 // TODO: Duplicated code, refactor.
 final class PredefinedCitiesWeatherModel: ObservableObject {
     
-    private var networkManager: NetworkManager
+    private var networkManager: NetworkManagerProtocol
     
     @Published var currentWeatherResponses: [CurrentWeatherResponse] = [] // This will store the weather for different locations.
     @Published var weatherFetchingStatus: WeatherFetchingStatus
     
-    // TODO: The user defined locations should be stored either in the backend or user defaults.
-    var userDefinedLocations: [String] = ["Buenos Aires", "Montevideo", "London"]
-    
-    init(networkManager: NetworkManager) {
+    init(networkManager: NetworkManagerProtocol) {
         self.weatherFetchingStatus = .notStarted
         self.networkManager = networkManager
     }
     // Get harcoded weather cities
+    private func getSavedCitiesWeather() -> [String] {
+        // TODO: The user defined locations should be stored either in the backend/user defaults/Swift Data/file.
+        // Since we don't have a functionality for adding/removing cities we will hard code them, this is not ready for production deployment
+        ["Buenos Aires", "Montevideo", "London"]
+    }
+    
     func getCitiesWeather() async {
-        currentWeatherResponses = await getPredefinedCitiesWeather(cities: userDefinedLocations)
+        currentWeatherResponses = await getPredefinedCitiesWeather(cities: getSavedCitiesWeather())
     }
     
     // Get predefined locations weather

@@ -14,7 +14,13 @@ enum WeatherFetchingStatus: Equatable {
     case failed
 }
 
-struct NetworkManager {
+protocol NetworkManagerProtocol {
+    func fetchCurrentWeather(request: URLRequest) async throws -> CurrentWeatherResponse
+    func createWeatherByGeoCodeRequest(lat: Double, lon: Double) throws -> URLRequest
+    func createWeatherByCityRequest(city: String) throws -> URLRequest
+}
+
+struct NetworkManager: NetworkManagerProtocol {
     
     func createWeatherByGeoCodeRequest(lat: Double, lon: Double) throws -> URLRequest {
         guard let apiKey = APIConfig.shared?.owmKey else {
@@ -82,4 +88,3 @@ struct NetworkManager {
         }
     }
 }
-

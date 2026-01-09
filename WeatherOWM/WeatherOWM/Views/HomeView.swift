@@ -19,7 +19,7 @@ struct HomeView: View {
             VStack {
                 Group {
                     if locationManager.userLocation == nil
-                        && locationManager.authorizarionStatus == .notDetermined {
+                        && locationManager.authorizationStatus == .notDetermined {
                         LocationRequestView()
                     } else if locationManager.userLocation != nil {
                         Text("Today")
