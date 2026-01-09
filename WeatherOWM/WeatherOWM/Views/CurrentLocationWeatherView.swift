@@ -35,11 +35,14 @@ struct CurrentLocationWeatherView: View {
                                 image
                                     .resizable()
                                     .scaledToFit()
+                                    .accessibilityLabel(viewModel.weather?.weather.first?.description ?? "Image describing the weather")
                                 
                             } placeholder: {
                                 Image(systemName: "sun.max")
                                     .font(.system(size: 32, weight: .bold, design: .default))
                                     .foregroundColor(.gray)
+                                    .accessibilityLabel("Place holder image")
+                                    .accessibilityHint("Image of a gay sun that will be reaplced by an image describing the weather")
                             }
                             .frame(width:70, height: 70)
                             

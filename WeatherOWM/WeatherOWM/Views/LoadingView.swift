@@ -13,6 +13,7 @@ struct LoadingView: View {
         GroupBox {
             ProgressView()
                 .progressViewStyle(CircularProgressViewStyle(tint: Color.gradientColor1))
+                .accessibilityLabel("An action is in progress")
         }
         .groupBoxStyle(.weather)
     }
