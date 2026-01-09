@@ -11,6 +11,9 @@ import CoreLocation
 struct HomeView: View {
     @ObservedObject var locationManager = GeoLocationManager.shared
     
+    @StateObject var currentLocationWeatherViewModel = CurrentLocationWeatherViewModel(networkManager: NetworkManager())
+    @StateObject var predefinedCitiesWeatherModel = PredefinedCitiesWeatherModel(networkManager: NetworkManager())
+    
     var body: some View {
         ZStack {
             Rectangle()
@@ -27,8 +30,9 @@ struct HomeView: View {
                             .foregroundStyle(Color(.white))
                             .padding(.top, 28)
                         VStack {
-                            CurrentLocationWeatherView(userLocation: $locationManager.userLocation)
-                            PredefinedCitiesWeather()
+                            CurrentLocationWeatherView(viewModel: currentLocationWeatherViewModel,
+                                                       userLocation: $locationManager.userLocation)
+                            PredefinedCitiesWeather(viewModel: predefinedCitiesWeatherModel)
                         }
                         .padding()
                     }

@@ -9,7 +9,7 @@ import SwiftUI
 import CoreLocation
 
 struct CurrentLocationWeatherView: View {
-    @StateObject var viewModel = CurrentLocationWeatherViewModel(networkManager: NetworkManager())
+    @ObservedObject var viewModel: CurrentLocationWeatherViewModel
     
     @Binding var userLocation: CLLocation?
     
@@ -83,5 +83,6 @@ struct CurrentLocationWeatherView: View {
 
 #Preview {
     let userLocation = CLLocation(latitude: 37.7749, longitude: -122.4194)
-    CurrentLocationWeatherView(userLocation: .constant(userLocation))
+    let viewModel = CurrentLocationWeatherViewModel(networkManager: NetworkManager())
+    CurrentLocationWeatherView(viewModel: viewModel, userLocation: .constant(userLocation))
 }

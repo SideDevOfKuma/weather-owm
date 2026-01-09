@@ -4,12 +4,12 @@
 <dict>
 	<key>UILaunchScreen</key>
 	<dict>
+		<key>UIColorName</key>
+		<string>GradientColor1</string>
 		<key>UIImageName</key>
 		<string>sun</string>
 		<key>UIImageRespectsSafeAreaInsets</key>
 		<true/>
-		<key>UIColorName</key>
-		<string>GradientColor1</string>
 	</dict>
 </dict>
 </plist>

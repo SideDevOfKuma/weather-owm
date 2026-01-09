@@ -42,15 +42,6 @@ struct LocationRequestView: View {
                     .background(.white)
                     .clipShape(.capsule)
                     .padding()
-                    
-                    Button {
-                        
-                    } label: {
-                        Text("Maybe Later")
-                            .padding()
-                            .font(.headline)
-                            .foregroundStyle(.white)
-                    }
                 }
                 .padding(.bottom,32)
             }
