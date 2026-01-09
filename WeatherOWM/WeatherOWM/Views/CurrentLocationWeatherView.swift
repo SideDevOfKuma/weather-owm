@@ -32,16 +32,17 @@ struct CurrentLocationWeatherView: View {
                                 
                             } placeholder: {
                                 Image(systemName: "sun.max")
-                                    .font(.system(size: 40, weight: .bold, design: .default))
+                                    .font(.system(size: 32, weight: .bold, design: .default))
                                     .foregroundColor(.gray)
                             }
                             .frame(width:70, height: 70)
                             
                             Text(weather.weather.first?.description.capitalized ?? "")
+                                .font(Font.subheadline)
                             Spacer()
                             VStack (alignment: .trailing){
                                 Text(weather.main.temp.toString() + " ºC")
-                                    .font(.system(size: 40, weight: .bold, design: .default))
+                                    .font(.system(size: 32, weight: .bold, design: .default))
                                 HStack {
                                     Text(String(format:"H: %.2f ºC",  weather.main.tempMax))
                                         .font(.caption.italic())
