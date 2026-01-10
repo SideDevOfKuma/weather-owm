@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct LocationRequestView: View {
+    @ObservedObject var locationManager: LocationManager
     
     var body: some View {
         ZStack {
@@ -30,7 +31,7 @@ struct LocationRequestView: View {
                 
                 VStack {
                     Button {
-                        GeoLocationManager.shared.requestLocationAuthorization()
+                        locationManager.requestLocationAuthorization()
                     } label: {
                         Text("Share Location")
                             .padding()
@@ -50,5 +51,6 @@ struct LocationRequestView: View {
 }
 
 #Preview {
-    LocationRequestView()
+    let locationManager = LocationManager()
+    LocationRequestView(locationManager: locationManager)
 }

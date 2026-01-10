@@ -11,7 +11,8 @@ import SwiftUI
 struct WeatherOWMApp: App {
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            let locationManager = LocationManager()
+            HomeView(locationManager: locationManager)
         }
     }
 }

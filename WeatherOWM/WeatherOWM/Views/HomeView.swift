@@ -9,7 +9,7 @@ import SwiftUI
 import CoreLocation
 
 struct HomeView: View {
-    @ObservedObject var locationManager = GeoLocationManager.shared
+    @ObservedObject var locationManager: LocationManager
     
     @StateObject var currentLocationWeatherViewModel = CurrentLocationWeatherViewModel(networkManager: NetworkManager())
     @StateObject var predefinedCitiesWeatherModel = PredefinedCitiesWeatherModel(networkManager: NetworkManager())
@@ -21,17 +21,16 @@ struct HomeView: View {
                 .ignoresSafeArea()
             VStack {
                 Group {
-                    if locationManager.userLocation == nil
-                        && locationManager.authorizationStatus == .notDetermined {
-                        LocationRequestView()
-                    } else if locationManager.userLocation != nil {
+                    if locationManager.location == nil && locationManager.authorizationStatus == .notDetermined {
+                        LocationRequestView(locationManager: locationManager)
+                    } else if locationManager.location != nil {
                         Text("Today")
                             .font(.system(size: 45, weight: .heavy, design: .default))
                             .foregroundStyle(Color(.white))
                             .padding(.top, 28)
                         VStack {
                             CurrentLocationWeatherView(viewModel: currentLocationWeatherViewModel,
-                                                       userLocation: $locationManager.userLocation)
+                                                       userLocation: $locationManager.location)
                             PredefinedCitiesWeather(viewModel: predefinedCitiesWeatherModel)
                         }
                         .padding()
@@ -43,5 +42,6 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView()
+    let locationManager = LocationManager()
+    HomeView(locationManager: locationManager)
 }
