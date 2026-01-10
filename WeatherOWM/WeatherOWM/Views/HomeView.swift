@@ -14,6 +14,8 @@ struct HomeView: View {
     @StateObject var currentLocationWeatherViewModel = CurrentLocationWeatherViewModel(networkManager: NetworkManager())
     @StateObject var predefinedCitiesWeatherModel = PredefinedCitiesWeatherModel(networkManager: NetworkManager())
     
+    @State var isLocAuthDelayed: Bool = false
+    
     var body: some View {
         ZStack {
             Rectangle()
@@ -21,16 +23,23 @@ struct HomeView: View {
                 .ignoresSafeArea()
             VStack {
                 Group {
-                    if locationManager.location == nil && locationManager.authorizationStatus == .notDetermined {
-                        LocationRequestView(locationManager: locationManager)
-                    } else if locationManager.location != nil {
+                    if !locationManager.isAuthorized()
+                        && isLocAuthDelayed == false
+                        && locationManager.authorizationStatus != .denied {
+                        LocationRequestView(locationManager: locationManager,
+                                            isLocAuthDelayed:$isLocAuthDelayed)
+                    } else {
+                        
                         Text("Today")
                             .font(.system(size: 45, weight: .heavy, design: .default))
                             .foregroundStyle(Color(.white))
                             .padding(.top, 28)
+
                         VStack {
-                            CurrentLocationWeatherView(viewModel: currentLocationWeatherViewModel,
-                                                       userLocation: $locationManager.location)
+                            if locationManager.isAuthorized() && locationManager.location != nil {
+                                CurrentLocationWeatherView(viewModel: currentLocationWeatherViewModel,
+                                                           userLocation: $locationManager.location)
+                            }
                             PredefinedCitiesWeather(viewModel: predefinedCitiesWeatherModel)
                         }
                         .padding()

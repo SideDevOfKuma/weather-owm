@@ -28,6 +28,10 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     func requestLocationAuthorization() {
         locationManager.requestWhenInUseAuthorization()
     }
+    
+    func isAuthorized() -> Bool {
+        [.authorizedAlways, .authorizedWhenInUse].contains(authorizationStatus)
+    }
 }
 
 extension LocationManager {

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LocationRequestView: View {
     @ObservedObject var locationManager: LocationManager
+    @Binding var isLocAuthDelayed: Bool
     
     var body: some View {
         ZStack {
@@ -43,6 +44,15 @@ struct LocationRequestView: View {
                     .background(.white)
                     .clipShape(.capsule)
                     .padding()
+                    
+                    Button {
+                        isLocAuthDelayed.toggle()
+                    } label: {
+                        Text("Maybe later")
+                            .padding()
+                            .font(.subheadline)
+                            .foregroundStyle(.white)
+                    }
                 }
                 .padding(.bottom,32)
             }
@@ -52,5 +62,5 @@ struct LocationRequestView: View {
 
 #Preview {
     let locationManager = LocationManager()
-    LocationRequestView(locationManager: locationManager)
+    LocationRequestView(locationManager: locationManager, isLocAuthDelayed: .constant(false))
 }
