@@ -9,7 +9,6 @@ import Foundation
 import CoreLocation
 import Combine
 
-// TODO: Duplicated code, refactor.
 final class PredefinedCitiesWeatherModel: ObservableObject {
     
     private var networkManager: NetworkManagerProtocol
@@ -21,6 +20,7 @@ final class PredefinedCitiesWeatherModel: ObservableObject {
         self.weatherFetchingStatus = .notStarted
         self.networkManager = networkManager
     }
+    
     // Get harcoded weather cities
     private func getSavedCitiesWeather() -> [String] {
         // TODO: The user defined locations should be stored either in the backend/user defaults/Swift Data/file.
@@ -54,7 +54,7 @@ final class PredefinedCitiesWeatherModel: ObservableObject {
         } catch {
             DLog(error)
             DLog("Failed to fetch weather for cities")
-            self.weatherFetchingStatus = .failed
+            self.weatherFetchingStatus = .failed(error)
             return results
         }
     }
@@ -66,15 +66,6 @@ final class PredefinedCitiesWeatherModel: ObservableObject {
             
         } catch {
             throw NetworkError.invalidResponse
-        }
-    }
-    
-    func getWeatherIconURL(iconId: String?) -> URL? {
-        if  let iconIdString = iconId,
-            let iconURL = URL(string: APIConstants.openWeatherIconBaseURL + "\(iconIdString)@2x.png") {
-            return iconURL
-        } else {
-            return nil
         }
     }
 }

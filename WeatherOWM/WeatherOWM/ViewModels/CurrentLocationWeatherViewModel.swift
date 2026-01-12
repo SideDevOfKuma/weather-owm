@@ -13,7 +13,7 @@ final class CurrentLocationWeatherViewModel: ObservableObject {
     
     private let networkManager: NetworkManagerProtocol
     
-    @Published var weather: CurrentWeatherResponse? = nil
+    @Published var weatherResponse: CurrentWeatherResponse? = nil
     @Published var weatherFetchingStatus: WeatherFetchingStatus
     
     init(networkManager:NetworkManagerProtocol) {
@@ -27,22 +27,13 @@ final class CurrentLocationWeatherViewModel: ObservableObject {
         do {
             let request = try networkManager.createWeatherByGeoCodeRequest(lat: lat , lon: lon)
             let result = try await networkManager.fetchCurrentWeather(request: request)
-            weather = result
+            weatherResponse = result
             weatherFetchingStatus = WeatherFetchingStatus.success
 
         } catch {
             DLog(error)
             DLog("Failed to fetch weather: \(error)")
-            weatherFetchingStatus = WeatherFetchingStatus.failed
-        }
-    }
-    
-    func getWeatherIconURL(iconId: String?) -> URL? {
-        if  let iconIdString = iconId,
-            let iconURL = URL(string: APIConstants.openWeatherIconBaseURL + "\(iconIdString)@2x.png") {
-            return iconURL
-        } else {
-            return nil
+            weatherFetchingStatus = .failed(error)
         }
     }
 }

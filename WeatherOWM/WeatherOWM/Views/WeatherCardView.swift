@@ -9,10 +9,12 @@ import SwiftUI
 
 struct WeatherCardView: View {
     @ObservedObject var viewModel: WeatherCardViewModel
+    @State var cardStatus: WeatherCardStatus
+    @State var weatherResponse: CurrentWeatherResponse?
     
     var body: some View {
         Group {
-            switch viewModel.cardStatus {
+            switch cardStatus {
             case .shimmering:
                 shimmeringCardView()
             case .showingWeather:
@@ -83,7 +85,7 @@ extension WeatherCardView {
     @ViewBuilder func weatherCardView() -> some View {
         GroupBox {
             VStack(alignment: .leading  ) {
-                Text(viewModel.weather?.name ?? "")
+                Text(weatherResponse?.name ?? "")
                     .font(Font.largeTitle.bold())
                 
                 if viewModel.isCurrentLocation == true {
@@ -93,7 +95,7 @@ extension WeatherCardView {
                 
                 HStack() {
                     AsyncImage(url: {
-                        if let icon = viewModel.weather?.weather.first?.icon {
+                        if let icon = weatherResponse?.weather.first?.icon {
                             return viewModel.getWeatherIconURL(iconId: icon)
                         } else {
                             return nil
@@ -102,7 +104,7 @@ extension WeatherCardView {
                         image
                             .resizable()
                             .scaledToFit()
-                            .accessibilityLabel(viewModel.weather?.weather.first?.description ?? "Image describing the weather")
+                            .accessibilityLabel(weatherResponse?.weather.first?.description ?? "Image describing the weather")
                         
                     } placeholder: {
                         Image(systemName: "sun.max")
@@ -113,20 +115,20 @@ extension WeatherCardView {
                     }
                     .frame(width:70, height: 70)
                     
-                    Text(viewModel.weather?.weather.first?.description.capitalized ?? "")
+                    Text(weatherResponse?.weather.first?.description.capitalized ?? "")
                         .font(Font.subheadline)
                     
                     Spacer()
                     
                     VStack (alignment: .trailing){
-                        Text(viewModel.getFormattedMainTemp())
+                        Text(viewModel.getFormattedMainTemp(weatherResponse?.main.temp))
                             .font(.system(size: 32, weight: .bold, design: .default))
                         
                         HStack {
-                            Text(viewModel.getFormattedMaxTemp())
+                            Text(viewModel.getFormattedMaxTemp(weatherResponse?.main.tempMax))
                                 .font(.caption.italic())
                             
-                            Text( viewModel.getFormattedMinTemp())
+                            Text( viewModel.getFormattedMinTemp(weatherResponse?.main.tempMin))
                                 .font(.caption.italic())
                         }
                     }
@@ -139,8 +141,8 @@ extension WeatherCardView {
 
 #Preview {
     let dummyWeather = loadDummyWeather()
-    let viewModel = WeatherCardViewModel(networkManager: NetworkManager(), isCurrentLocation: false, cardStatus: .showingWeather)
-    viewModel.weather = dummyWeather
-    return WeatherCardView(viewModel: viewModel)
+    let viewModel = WeatherCardViewModel(isCurrentLocation: false)
+
+    WeatherCardView(viewModel: viewModel, cardStatus: .shimmering, weatherResponse: dummyWeather)
 }
 

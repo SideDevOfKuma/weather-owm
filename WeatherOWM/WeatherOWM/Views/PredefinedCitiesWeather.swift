@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PredefinedCitiesWeather: View {
     @ObservedObject var viewModel: PredefinedCitiesWeatherModel
+    @StateObject var weatherCardViewModel = WeatherCardViewModel(isCurrentLocation: false)
     
     var body: some View {
         Group {
@@ -17,20 +18,22 @@ struct PredefinedCitiesWeather: View {
                 .foregroundStyle(Color(.white))
                 .padding(.top, 8)
             
-            if viewModel.weatherFetchingStatus == .success {
-                
+            switch viewModel.weatherFetchingStatus {
+            case .success:
                 ScrollView {
                     VStack(spacing: 20) {
                         ForEach(viewModel.currentWeatherResponses) { response in
-                            CityWeatherView(weather: response, imageURL: viewModel.getWeatherIconURL(iconId: response.weather.first?.icon))
+                            WeatherCardView(viewModel: weatherCardViewModel,
+                                            cardStatus: .showingWeather,
+                                            weatherResponse: response)
                         }
                     }
                 }
                 .padding(.top, 8)
-                
-            } else {
-                LoadingView()
-                Spacer()
+            case .failed(let error):
+                WeatherCardView(viewModel: weatherCardViewModel, cardStatus: .showingError(error))
+            case .fetching, .notStarted:
+                WeatherCardView(viewModel: weatherCardViewModel, cardStatus: .shimmering)
             }
         }
         .onAppear() {

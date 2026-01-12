@@ -14,19 +14,11 @@ enum WeatherCardStatus {
     case showingError(Error)
 }
 
-
 final class WeatherCardViewModel: NSObject, ObservableObject {
-    @Published var cardStatus: WeatherCardStatus
-    
-    private var networkManager: NetworkManager
-    var weather: CurrentWeatherResponse?
     var isCurrentLocation: Bool
     
-    init(networkManager: NetworkManager, isCurrentLocation: Bool = false, cardStatus: WeatherCardStatus = .shimmering) {
-        self.networkManager = networkManager
+    init(isCurrentLocation: Bool = false) {
         self.isCurrentLocation = isCurrentLocation
-        self.cardStatus = cardStatus
-        self.weather = nil
     }
     
     func getWeatherIconURL(iconId: String?) -> URL? {
@@ -38,24 +30,24 @@ final class WeatherCardViewModel: NSObject, ObservableObject {
         }
     }
     
-    func getFormattedMainTemp() -> String {
-        if let temp = weather?.main.temp{
+    func getFormattedMainTemp(_ temp: Double?) -> String {
+        if let temp = temp{
             return String(format: "%.2f ºC", temp)
         } else {
             return "-- ºC"
         }
     }
     
-    func getFormattedMaxTemp() -> String {
-        if let tempMax = weather?.main.tempMax {
+    func getFormattedMaxTemp(_ tempMax: Double?) -> String {
+        if let tempMax = tempMax {
             return String(format: "H: %.2f ºC", tempMax)
         } else {
             return "H: -- ºC"
         }
     }
     
-    func getFormattedMinTemp() -> String {
-        if let tempMin = weather?.main.tempMin {
+    func getFormattedMinTemp(_ tempMin: Double?) -> String {
+        if let tempMin = tempMin {
             return String(format: "L: %.2f ºC", tempMin)
         } else {
             return "L: -- ºC"

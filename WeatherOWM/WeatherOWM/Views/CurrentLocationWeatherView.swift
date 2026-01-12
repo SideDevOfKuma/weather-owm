@@ -13,65 +13,17 @@ struct CurrentLocationWeatherView: View {
     
     @Binding var userLocation: CLLocation?
     
+    @StateObject var weatherCardViewModel = WeatherCardViewModel(isCurrentLocation: true)
+    
     var body: some View {
         Group {
-            if viewModel.weatherFetchingStatus == WeatherFetchingStatus.success,let weather = viewModel.weather
-            {
-                GroupBox {
-                    VStack(alignment: .leading  ) {
-                        Text(weather.name)
-                            .font(Font.largeTitle.bold())
-                        Text("Current Location")
-                                .font(Font.subheadline.italic())
-                        HStack() {
-                            
-                            AsyncImage(url: {
-                                if let icon = viewModel.weather?.weather.first?.icon {
-                                    return viewModel.getWeatherIconURL(iconId: icon)
-                                } else {
-                                    return nil
-                                }
-                            }()) { image in
-                                image
-                                    .resizable()
-                                    .scaledToFit()
-                                    .accessibilityLabel(viewModel.weather?.weather.first?.description ?? "Image describing the weather")
-                                
-                            } placeholder: {
-                                Image(systemName: "sun.max")
-                                    .font(.system(size: 32, weight: .bold, design: .default))
-                                    .foregroundColor(.gray)
-                                    .accessibilityLabel("Place holder image")
-                                    .accessibilityHint("Image of a gay sun that will be reaplced by an image describing the weather")
-                            }
-                            .frame(width:70, height: 70)
-                            
-                            Text(weather.weather.first?.description.capitalized ?? "")
-                                .font(Font.subheadline)
-                            Spacer()
-                            VStack (alignment: .trailing){
-                                Text({
-                                    let temp = weather.main.temp
-                                    if temp.isFinite {
-                                        return String(format: "%.2f ºC", temp)
-                                    } else {
-                                        return "-- ºC"
-                                    }
-                                }())
-                                    .font(.system(size: 32, weight: .bold, design: .default))
-                                HStack {
-                                    Text(weather.main.tempMax.isFinite ? String(format: "H: %.2f ºC", weather.main.tempMax) : "H: -- ºC")
-                                        .font(.caption.italic())
-                                    Text(weather.main.tempMin.isFinite ? String(format: "L: %.2f ºC", weather.main.tempMin) : "L: -- ºC")
-                                        .font(.caption.italic())
-                                }
-                            }
-                        }
-                    }
-                }
-                .groupBoxStyle(.weather)
-            } else {
-                LoadingView()
+            switch viewModel.weatherFetchingStatus {
+            case .notStarted, .fetching:
+                WeatherCardView(viewModel: weatherCardViewModel, cardStatus: .shimmering)
+            case .success:
+                WeatherCardView(viewModel: weatherCardViewModel, cardStatus: .showingWeather, weatherResponse: viewModel.weatherResponse)
+            case .failed(let error):
+                WeatherCardView(viewModel: weatherCardViewModel, cardStatus: .showingError(error))
             }
         }
         .onAppear {

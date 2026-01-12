@@ -7,11 +7,11 @@
 
 import Foundation
 
-enum WeatherFetchingStatus: Equatable {
+enum WeatherFetchingStatus {
     case notStarted
     case fetching
     case success
-    case failed
+    case failed(Error)
 }
 
 protocol NetworkManagerProtocol {
