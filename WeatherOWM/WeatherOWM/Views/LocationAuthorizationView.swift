@@ -7,9 +7,8 @@
 
 import SwiftUI
 
-struct LocationRequestView: View {
-    @ObservedObject var locationManager: LocationManager
-    @Binding var isLocAuthDelayed: Bool
+struct LocationAuthorizationView: View {
+    @ObservedObject var viewModel: LocationAuthorizationViewModel
     
     var body: some View {
         ZStack {
@@ -32,7 +31,7 @@ struct LocationRequestView: View {
                 
                 VStack {
                     Button {
-                        locationManager.requestLocationAuthorization()
+                        viewModel.onLocalizationAuthorizationRequestTapped()
                     } label: {
                         Text("Share Location")
                             .padding()
@@ -46,7 +45,7 @@ struct LocationRequestView: View {
                     .padding()
                     
                     Button {
-                        isLocAuthDelayed.toggle()
+                        viewModel.onMaybeLaterTapped()
                     } label: {
                         Text("Maybe later")
                             .padding()
@@ -57,10 +56,11 @@ struct LocationRequestView: View {
                 .padding(.bottom,32)
             }
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
 #Preview {
-    let locationManager = LocationManager()
-    LocationRequestView(locationManager: locationManager, isLocAuthDelayed: .constant(false))
+    let viewModel = LocationAuthorizationViewModel()
+    LocationAuthorizationView(viewModel: viewModel)
 }

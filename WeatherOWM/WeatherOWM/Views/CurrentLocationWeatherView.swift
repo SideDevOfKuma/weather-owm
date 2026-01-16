@@ -11,7 +11,7 @@ import CoreLocation
 struct CurrentLocationWeatherView: View {
     @ObservedObject var viewModel: CurrentLocationWeatherViewModel
     
-    @Binding var userLocation: CLLocation?
+    var userLocation: CLLocation?
     
     @StateObject var weatherCardViewModel = WeatherCardViewModel(isCurrentLocation: true)
     
@@ -39,5 +39,5 @@ struct CurrentLocationWeatherView: View {
 #Preview {
     let userLocation = CLLocation(latitude: 37.7749, longitude: -122.4194)
     let viewModel = CurrentLocationWeatherViewModel(networkManager: NetworkManager())
-    CurrentLocationWeatherView(viewModel: viewModel, userLocation: .constant(userLocation))
+    CurrentLocationWeatherView(viewModel: viewModel, userLocation: userLocation)
 }

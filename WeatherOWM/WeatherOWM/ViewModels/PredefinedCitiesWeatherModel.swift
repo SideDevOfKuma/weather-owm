@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import CoreLocation
 import Combine
 
 final class PredefinedCitiesWeatherModel: ObservableObject {

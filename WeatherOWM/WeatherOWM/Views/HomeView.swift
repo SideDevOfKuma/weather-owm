@@ -6,10 +6,10 @@
 //
 
 import SwiftUI
-import CoreLocation
+
 
 struct HomeView: View {
-    @ObservedObject var locationManager: LocationManager
+    @ObservedObject var viewModel: HomeViewModel
     
     @StateObject var currentLocationWeatherViewModel = CurrentLocationWeatherViewModel(networkManager: NetworkManager())
     @StateObject var predefinedCitiesWeatherModel = PredefinedCitiesWeatherModel(networkManager: NetworkManager())
@@ -23,27 +23,22 @@ struct HomeView: View {
                 .ignoresSafeArea()
             VStack {
                 Group {
-                    if !locationManager.isAuthorized()
-                        && isLocAuthDelayed == false
-                        && locationManager.authorizationStatus != .denied {
-                        LocationRequestView(locationManager: locationManager,
-                                            isLocAuthDelayed:$isLocAuthDelayed)
-                    } else {
-                        
-                        Text("Today")
-                            .font(.system(size: 45, weight: .heavy, design: .default))
-                            .foregroundStyle(Color(.white))
-                            .padding(.top, 28)
-
-                        VStack {
-                            if locationManager.isAuthorized() && locationManager.location != nil {
-                                CurrentLocationWeatherView(viewModel: currentLocationWeatherViewModel,
-                                                           userLocation: $locationManager.location)
-                            }
-                            PredefinedCitiesWeather(viewModel: predefinedCitiesWeatherModel)
+                    
+                    
+                    Text("Today")
+                        .font(.system(size: 45, weight: .heavy, design: .default))
+                        .foregroundStyle(Color(.white))
+                        .padding(.top, 28)
+                    
+                    VStack {
+                        if viewModel.shoudlShowCurrentLocationWeather() {
+                            CurrentLocationWeatherView(viewModel: currentLocationWeatherViewModel,
+                                                       userLocation: viewModel.locationManager.location)
                         }
-                        .padding()
+                        PredefinedCitiesWeather(viewModel: predefinedCitiesWeatherModel)
                     }
+                    .padding()
+                    
                 }
             }
         }
@@ -52,5 +47,6 @@ struct HomeView: View {
 
 #Preview {
     let locationManager = LocationManager()
-    HomeView(locationManager: locationManager)
+    let viewModel = HomeViewModel(locationManager: locationManager)
+    HomeView(viewModel: viewModel)
 }

@@ -7,14 +7,17 @@
 
 import Foundation
 import CoreLocation
-import Combine
 
-class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
+protocol LocationManagerDelegate: AnyObject {
+    func didUpdateAuthorizationStatus (_ status: CLAuthorizationStatus)
+}
+
+class LocationManager: NSObject, CLLocationManagerDelegate {
+    var location: CLLocation?
+    var authorizationStatus: CLAuthorizationStatus
     
-    @Published var location: CLLocation?
-    @Published var authorizationStatus: CLAuthorizationStatus
-    
-    private let locationManager = CLLocationManager()
+    let locationManager = CLLocationManager()
+    weak var delegate: LocationManagerDelegate?
     
     override init() {
         authorizationStatus = locationManager.authorizationStatus
@@ -22,7 +25,6 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         super.init()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.startUpdatingLocation()
     }
     
     func requestLocationAuthorization() {
@@ -34,6 +36,8 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
 }
 
+
+// MARK: - CLLocationManagerDelegate
 extension LocationManager {
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
@@ -59,5 +63,7 @@ extension LocationManager {
             manager.stopUpdatingLocation()
             location = nil
         }
+        
+        delegate?.didUpdateAuthorizationStatus(authorizationStatus)
     }
 }
