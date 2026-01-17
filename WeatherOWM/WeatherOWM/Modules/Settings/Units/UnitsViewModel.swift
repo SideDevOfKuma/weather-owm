@@ -8,8 +8,6 @@
 import Foundation
 import Combine
 
-
-
 final class UnitsViewModel: BaseViewModel, ObservableObject {
     var unitOptions: [SelectableUnit] = [
         SelectableUnit(title: "Metric", type: TempUnit.metric),

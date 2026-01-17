@@ -10,6 +10,7 @@ import CoreLocation
 
 protocol LocationManagerDelegate: AnyObject {
     func didUpdateAuthorizationStatus (_ status: CLAuthorizationStatus)
+    func didUpodateLocation(_ location: CLLocation)
 }
 
 class LocationManager: NSObject, CLLocationManagerDelegate {
@@ -41,6 +42,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
 extension LocationManager {
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
+        delegate?.didUpodateLocation(location)
         self.location = location
     }
     

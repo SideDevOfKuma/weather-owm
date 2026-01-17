@@ -63,6 +63,10 @@ extension LocationAuthorizationCoordinator: LocationAuthorizationNavDelegate {
 
 // MARK: - LocationManagerDelegate
 extension LocationAuthorizationCoordinator: LocationManagerDelegate {
+    func didUpodateLocation(_ location: CLLocation) {
+        // Do nothing
+    }
+    
     func didUpdateAuthorizationStatus(_ status: CLAuthorizationStatus) {
         if status != .notDetermined {
             locationManager.delegate = nil

@@ -32,25 +32,25 @@ final class WeatherCardViewModel: NSObject, ObservableObject {
     
     func getFormattedMainTemp(_ temp: Double?) -> String {
         if let temp = temp{
-            return String(format: "%.2f ºC", temp)
+            return String(format: "%.2f", temp)
         } else {
-            return "-- ºC"
+            return "--"
         }
     }
     
     func getFormattedMaxTemp(_ tempMax: Double?) -> String {
         if let tempMax = tempMax {
-            return String(format: "H: %.2f ºC", tempMax)
+            return String(format: "H: %.2f", tempMax)
         } else {
-            return "H: -- ºC"
+            return "H: --"
         }
     }
     
     func getFormattedMinTemp(_ tempMin: Double?) -> String {
         if let tempMin = tempMin {
-            return String(format: "L: %.2f ºC", tempMin)
+            return String(format: "L: %.2f", tempMin)
         } else {
-            return "L: -- ºC"
+            return "L: --"
         }
     }
 }
