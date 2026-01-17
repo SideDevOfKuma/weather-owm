@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct PredefinedCitiesWeather: View {
-    @ObservedObject var viewModel: PredefinedCitiesWeatherModel
+struct PredefinedCitiesWeatherView: View {
+    @ObservedObject var viewModel: PredefinedCitiesWeatherViewModel
     @StateObject var weatherCardViewModel = WeatherCardViewModel(isCurrentLocation: false)
     
     var body: some View {
@@ -45,6 +45,6 @@ struct PredefinedCitiesWeather: View {
 }
 
 #Preview {
-    let viewModel = PredefinedCitiesWeatherModel(networkManager: NetworkManager())
-    PredefinedCitiesWeather(viewModel: viewModel)
+    let viewModel = PredefinedCitiesWeatherViewModel(networkManager: NetworkManager())
+    PredefinedCitiesWeatherView(viewModel: viewModel)
 }

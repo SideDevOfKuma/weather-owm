@@ -17,7 +17,9 @@ class SettingsCoordinator: BaseCoordinator<UINavigationController> {
 // MARK: - Show Screens
 private extension SettingsCoordinator {
     func showSettings() {
-        let view = SettingsView()
+        let viewModel = SettingsViewModel()
+        viewModel.navDelegate = self
+        let view = SettingsView(viewModel: viewModel)
         let viewController = UIHostingController(rootView: view)
         
         viewController.title = "Settings"
@@ -25,3 +27,14 @@ private extension SettingsCoordinator {
     }
 }
 
+// MARK: - SettingsNavDelegate
+extension SettingsCoordinator: SettingsNavDelegate {
+    func onUnitsTapped() {
+        let viewModel = UnitsViewModel()
+        let view = UnitsView(viewModel: viewModel)
+        let viewController = UIHostingController(rootView: view)
+        
+        viewController.title = "Units"
+        presenter.pushViewController(viewController, animated: true)
+    }
+}

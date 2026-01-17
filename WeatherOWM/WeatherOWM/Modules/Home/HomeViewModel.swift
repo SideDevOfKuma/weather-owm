@@ -13,7 +13,7 @@ protocol HomeNavDelegate: AnyObject {
     // This will be used in the future
 }
 
-class HomeViewModel: BaseViewModel, ObservableObject {
+final class HomeViewModel: BaseViewModel, ObservableObject {
     var locationManager: LocationManager
     
     init(locationManager: LocationManager) {

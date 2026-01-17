@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-final class PredefinedCitiesWeatherModel: ObservableObject {
+final class PredefinedCitiesWeatherViewModel: ObservableObject {
     
     private var networkManager: NetworkManagerProtocol
     

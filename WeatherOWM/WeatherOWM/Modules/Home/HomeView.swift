@@ -12,14 +12,14 @@ struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
     
     @StateObject var currentLocationWeatherViewModel = CurrentLocationWeatherViewModel(networkManager: NetworkManager())
-    @StateObject var predefinedCitiesWeatherModel = PredefinedCitiesWeatherModel(networkManager: NetworkManager())
+    @StateObject var predefinedCitiesWeatherModel = PredefinedCitiesWeatherViewModel(networkManager: NetworkManager())
     
     @State var isLocAuthDelayed: Bool = false
     
     var body: some View {
         ZStack {
             Rectangle()
-                .foregroundStyle(LinearGradient(gradient: Gradient(colors: [Color("GradientColor1"), Color("GradientColor2")]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                .foregroundStyle(LinearGradient(gradient: Gradient(colors: [Color("PrimaryColor"), Color("SecondaryColor")]), startPoint: .topLeading, endPoint: .bottomTrailing))
                 .ignoresSafeArea()
             VStack {
                 Group {
@@ -35,7 +35,7 @@ struct HomeView: View {
                             CurrentLocationWeatherView(viewModel: currentLocationWeatherViewModel,
                                                        userLocation: viewModel.locationManager.location)
                         }
-                        PredefinedCitiesWeather(viewModel: predefinedCitiesWeatherModel)
+                        PredefinedCitiesWeatherView(viewModel: predefinedCitiesWeatherModel)
                     }
                     .padding()
                     

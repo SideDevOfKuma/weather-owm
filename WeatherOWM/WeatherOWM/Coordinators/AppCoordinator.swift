@@ -14,6 +14,7 @@ class AppCoordinator: BaseCoordinator<UINavigationController> {
     
     let window: UIWindow
     let locationManager: LocationManager
+    
     private var requestDelayed: Bool = false
     
     init(window: UIWindow) {

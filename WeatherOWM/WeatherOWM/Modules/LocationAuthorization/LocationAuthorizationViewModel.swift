@@ -13,7 +13,7 @@ protocol LocationAuthorizationNavDelegate: AnyObject {
     func onLocalizationAuthorizationRequestTapped()
 }
 
-class LocationAuthorizationViewModel: BaseViewModel, ObservableObject {
+final class LocationAuthorizationViewModel: BaseViewModel, ObservableObject {
     weak var navDelegate: LocationAuthorizationNavDelegate?
     
     init(navDelegate: LocationAuthorizationNavDelegate? = nil) {
