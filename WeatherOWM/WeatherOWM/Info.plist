@@ -5,7 +5,7 @@
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIColorName</key>
-		<string>PrimaryColor</string>
+		<string>PrimaryBlueColor</string>
 		<key>UIImageName</key>
 		<string>sun</string>
 		<key>UIImageRespectsSafeAreaInsets</key>

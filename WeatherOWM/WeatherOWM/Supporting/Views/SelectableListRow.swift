@@ -16,10 +16,10 @@ struct SelectableListRow: View {
         HStack(spacing: 16) {
             if isSelected {
                 Image(systemName: "circle.fill")
-                    .foregroundStyle(Color("PrimaryColor"))
+                    .foregroundStyle(Color(Colors.primaryBlue))
             } else {
                 Image(systemName: "circle")
-                    .foregroundStyle(Color("PrimaryColor"))
+                    .foregroundStyle(Color(Colors.primaryBlue))
             }
             Text(title)
                 .font(isSelected ? Font.body.bold(): Font.body)

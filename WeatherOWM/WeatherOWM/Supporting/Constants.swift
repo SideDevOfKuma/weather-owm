@@ -14,3 +14,9 @@ enum APIConstants {
     static let apiKey = "appid"
     static let cityKey = "q"
 }
+
+
+enum Colors {
+    static let primaryBlue = "PrimaryBlueColor"
+    static let secondaryBlue = "SecondaryBlueColor"
+}

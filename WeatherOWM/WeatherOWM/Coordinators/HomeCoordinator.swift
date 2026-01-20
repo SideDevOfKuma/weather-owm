@@ -30,7 +30,7 @@ private extension HomeCoordinator {
         let viewModel = HomeViewModel(locationManager: locationManager, networkManager: networkManager)
         let view = HomeView(viewModel: viewModel)
         let viewController = UIHostingController(rootView: view)
-        viewController.title = "Home"
+        viewController.title = ""
         viewModel.loadWeather()
         
         presenter.setViewControllers([viewController], animated: true)
