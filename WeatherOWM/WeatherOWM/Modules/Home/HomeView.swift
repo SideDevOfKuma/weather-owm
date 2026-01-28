@@ -26,9 +26,19 @@ struct HomeView: View {
                 .ignoresSafeArea()
             VStack {
                 Group {
-                    Text("Today")
-                        .font(.system(size: 45, weight: .heavy, design: .default))
-                        .foregroundStyle(Color(.white))
+                    HStack(alignment: .center) {
+                        Text("Today")
+                            .font(.system(size: 40, weight: .heavy, design: .default))
+                            .foregroundStyle(Color(.white))
+                        Spacer()
+                        
+                        Button("", systemImage: "arrow.clockwise") {
+                            // Refresh data
+                        }
+                        .font(.title.bold())
+                        .foregroundStyle(.white)
+                    }
+                    .padding(.horizontal, 20)
                     
                     VStack {
                         if viewModel.shoudlShowCurrentLocationWeather() {
@@ -39,6 +49,10 @@ struct HomeView: View {
                     .padding(.horizontal, 20)
                     Spacer()
                 }
+                
+                Text("Last updated: ")
+                    .font(.callout)
+                    .foregroundStyle(.white)
             }
         }
     }
@@ -70,10 +84,20 @@ struct HomeView: View {
     // User Defined Weather
     @ViewBuilder func cityWeatherView() -> some View {
         Group {
-            Text("Defined Locations: ")
+            HStack(alignment: .center) {
+                Text("Defined Locations: ")
+                    .font(Font.title.bold())
+                    .foregroundStyle(Color(.white))
+                
+                Spacer()
+                
+                Button("", systemImage: "plus"){
+                    // Add city
+                }
                 .font(Font.title.bold())
-                .foregroundStyle(Color(.white))
-                .padding(.top, 16)
+                .foregroundStyle(.white)
+            }
+            .padding(.top, 16)
             
             switch viewModel.cityWeatherFetchingStatus {
             case .success:
@@ -108,18 +132,18 @@ struct HomeView: View {
 }
 
 #Preview {
-   
+    
     let viewModel = viewModelWithFakeWeather()
     
     HomeView(viewModel: viewModel)
 }
 
- func viewModelWithFakeWeather() -> HomeViewModel {
-     let locationManager = LocationManager()
-     let networkManager = NetworkManager()
-     let dummyWheater = loadDummyWeather()
-     let viewModel = HomeViewModel(locationManager: locationManager, networkManager: networkManager, cityWeatherFetchingStatus: .success)
-     viewModel.cityWeatherResponses = [dummyWheater, dummyWheater]
-     
-     return viewModel
+func viewModelWithFakeWeather() -> HomeViewModel {
+    let locationManager = LocationManager()
+    let networkManager = NetworkManager()
+    let dummyWheater = loadDummyWeather()
+    let viewModel = HomeViewModel(locationManager: locationManager, networkManager: networkManager, cityWeatherFetchingStatus: .success)
+    viewModel.cityWeatherResponses = [dummyWheater, dummyWheater]
+    
+    return viewModel
 }
