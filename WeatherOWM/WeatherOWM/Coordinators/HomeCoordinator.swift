@@ -9,12 +9,10 @@ import UIKit
 import SwiftUI
 
 class HomeCoordinator: BaseCoordinator<UINavigationController> {
-    var locationManager: LocationManager
-    var networkManager: NetworkManagerProtocol
+    var dependencyContainer: DependencyContainerProtocol
     
-    init(presenter: UINavigationController, locationManager: LocationManager, networkManager: NetworkManagerProtocol = NetworkManager()) {
-        self.locationManager = locationManager
-        self.networkManager = networkManager
+    init(presenter: UINavigationController, dependencyContainer: DependencyContainerProtocol) {
+        self.dependencyContainer = dependencyContainer
         super.init(presenter: presenter)
     }
     
@@ -27,7 +25,7 @@ class HomeCoordinator: BaseCoordinator<UINavigationController> {
 // MARK: - Show Screens
 private extension HomeCoordinator {
     func showHomeScreen() {
-        let viewModel = HomeViewModel(locationManager: locationManager, networkManager: networkManager)
+        let viewModel = HomeViewModel(dependencyContainer: dependencyContainer)
         let view = HomeView(viewModel: viewModel)
         let viewController = UIHostingController(rootView: view)
         viewController.title = ""

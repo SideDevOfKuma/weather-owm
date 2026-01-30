@@ -18,13 +18,15 @@ class LocationAuthorizationCoordinator: BaseCoordinator<UINavigationController> 
     
     var locationManager: LocationManager
     var requestDelayed: Bool = false
+    let dependencyContainer: DependencyContainerProtocol
     
     init(
         presenter: UINavigationController,
-        locationManager: LocationManager,
+        dependencyContainer: DependencyContainerProtocol,
         delegate: LocationAuthorizationCoordinatorDelegate? = nil
     ) {
-        self.locationManager = locationManager
+        self.dependencyContainer = dependencyContainer
+        self.locationManager = dependencyContainer.resolve(LocationManager.self, as: .multipleInstance)
         super.init(presenter: presenter)
         
         locationManager.delegate = self

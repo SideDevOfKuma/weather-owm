@@ -20,7 +20,7 @@ protocol NetworkManagerProtocol {
     func createWeatherByCityRequest(city: String) throws -> URLRequest
 }
 
-struct NetworkManager: NetworkManagerProtocol {
+final class NetworkManager: NetworkManagerProtocol {
     
     func createWeatherByGeoCodeRequest(lat: Double, lon: Double) throws -> URLRequest {
         guard let apiKey = APIConfig.shared?.owmKey else {

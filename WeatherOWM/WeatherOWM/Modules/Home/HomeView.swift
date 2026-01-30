@@ -132,18 +132,17 @@ struct HomeView: View {
 }
 
 #Preview {
-    
     let viewModel = viewModelWithFakeWeather()
-    
     HomeView(viewModel: viewModel)
 }
 
 func viewModelWithFakeWeather() -> HomeViewModel {
-    let locationManager = LocationManager()
-    let networkManager = NetworkManager()
+    let dependncyContainer = DependencyContainer()
     let dummyWheater = loadDummyWeather()
-    let viewModel = HomeViewModel(locationManager: locationManager, networkManager: networkManager, cityWeatherFetchingStatus: .success)
+    let viewModel = HomeViewModel(
+        dependencyContainer: dependncyContainer,
+        cityWeatherFetchingStatus: .success
+    )
     viewModel.cityWeatherResponses = [dummyWheater, dummyWheater]
-    
     return viewModel
 }

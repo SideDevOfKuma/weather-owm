@@ -19,15 +19,15 @@ enum TabBarTags: Int {
 
 class MainCoordinator: BaseCoordinator<UINavigationController> {
     weak var delegate: MainCoordinatorDelegate?
-    var locationManager: LocationManager
+    var depedencyContainer: DependencyContainerProtocol
     
     init(
         presenter: UINavigationController ,
-        locationManager: LocationManager,
+        dependencyContainer: DependencyContainerProtocol,
         delegate: MainCoordinatorDelegate? = nil
     ) {
+        self.depedencyContainer = dependencyContainer
         self.delegate = delegate
-        self.locationManager = locationManager
         super.init(presenter: presenter)
     }
     
@@ -38,10 +38,9 @@ class MainCoordinator: BaseCoordinator<UINavigationController> {
 }
 
 // MARK: - Show Screens
-
 private extension MainCoordinator {
     func showRoot() {
-        let homeCoordinator = configureHomeCoordinator(locationManager: locationManager)
+        let homeCoordinator = configureHomeCoordinator()
         let settingsCoordinator = configureSettingsCoordiantor()
         
         let controllers = [
@@ -58,7 +57,7 @@ private extension MainCoordinator {
 
 // MARK: - Sub Coordinators
 private extension MainCoordinator {
-    func configureHomeCoordinator(locationManager: LocationManager) -> HomeCoordinator {
+    func configureHomeCoordinator() -> HomeCoordinator {
         let flowPresenter = UINavigationController()
         flowPresenter.tabBarItem = UITabBarItem(
             title: "Home",
@@ -66,7 +65,7 @@ private extension MainCoordinator {
             tag: TabBarTags.home.rawValue
         )
         
-        let coordinator = HomeCoordinator(presenter: flowPresenter, locationManager: locationManager)
+        let coordinator = HomeCoordinator(presenter: flowPresenter, dependencyContainer: depedencyContainer)
         coordinator.start()
         
         store(coordinator: coordinator)

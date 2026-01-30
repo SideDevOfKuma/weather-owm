@@ -15,8 +15,9 @@ protocol HomeNavDelegate: AnyObject {
 }
 
 final class HomeViewModel: BaseViewModel, ObservableObject {
-    var locationManager: LocationManager
-    private let networkManager: NetworkManagerProtocol
+    var dependencyContainer: DependencyContainerProtocol
+    private var locationManager: LocationManager
+    private var networkManager: NetworkManagerProtocol
     private var localWeatherFetchTime: Date?
     private var cityWeatherFetchTime: Date?
     private var localweatherRequested: Bool = false
@@ -27,16 +28,17 @@ final class HomeViewModel: BaseViewModel, ObservableObject {
     @Published var cityWeatherFetchingStatus: WeatherFetchingStatus
     
     init(
-        locationManager: LocationManager,
-        networkManager: NetworkManagerProtocol,
+        dependencyContainer: DependencyContainerProtocol,
         weatherFetchingStatus: WeatherFetchingStatus = .notStarted,
         cityWeatherFetchingStatus: WeatherFetchingStatus = .notStarted
     ) {
-        self.locationManager = locationManager
-        self.networkManager = networkManager
+        self.dependencyContainer = dependencyContainer
         self.localWeatherFetchingStatus = weatherFetchingStatus
         self.cityWeatherFetchingStatus = cityWeatherFetchingStatus
+        self.networkManager = dependencyContainer.resolve(NetworkManagerProtocol.self, as: .singleInstance)
+        self.locationManager = dependencyContainer.resolve(LocationManager.self, as: .multipleInstance)
         super.init()
+        
         locationManager.delegate = self
     }
     

@@ -13,18 +13,18 @@ import CoreLocation
 class AppCoordinator: BaseCoordinator<UINavigationController> {
     
     let window: UIWindow
-    let locationManager: LocationManager
+    let dependencyContainer: DependencyContainerProtocol
     
     private var requestDelayed: Bool = false
     
-    init(window: UIWindow) {
+    init(window: UIWindow, dependencyContainer: DependencyContainerProtocol) {
         self.window = window
         
         let presenter = UINavigationController()
         presenter.isToolbarHidden = true
         
-        self.locationManager = LocationManager()
-        
+        self.dependencyContainer = dependencyContainer
+    
         super.init(presenter: presenter)
         
         self.window.rootViewController = presenter
@@ -32,6 +32,7 @@ class AppCoordinator: BaseCoordinator<UINavigationController> {
     }
     
     override func start() {
+        let locationManager = dependencyContainer.resolve(LocationManager.self, as: .multipleInstance)
         
         if locationManager.authorizationStatus == .notDetermined && !requestDelayed {
             startLocationAuthorization()
@@ -46,7 +47,7 @@ private extension AppCoordinator {
     func startMain() {
         let mainCoordinator = MainCoordinator(
             presenter: presenter,
-            locationManager: locationManager
+            dependencyContainer: dependencyContainer
         )
         mainCoordinator.delegate = self
         mainCoordinator.start()
@@ -56,7 +57,7 @@ private extension AppCoordinator {
     func startLocationAuthorization() {
         let locationAuthorizationCoordinator = LocationAuthorizationCoordinator(
             presenter: presenter,
-            locationManager: locationManager
+            dependencyContainer: dependencyContainer
         )
         
         locationAuthorizationCoordinator.delegate = self
